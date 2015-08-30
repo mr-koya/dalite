@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question Results</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <link rel="stylesheet" href="scripts/kendo/kendo.dataviz.min.css" />
+
+        <script src="scripts/jquery.js"></script>
+        <script src="scripts/kendo/kendo.dataviz.min.js"></script>
+
+        <style>
+            body {margin-left: auto; margin-top: 2em; text-align: center;}
+            .graphs {display: inline-block;}
+            .chart {width: 500px; height: 200px;}
+            #answers {display: inline-block; width: 300px; height: 200px; vertical-align: top;}
+            #tags {display: inline-block; width:300px; height:250px; vertical-align: top;}
+        </style>
+
+        <script>
+            $(document).ready(function() {
+                var tags = [{label: 'Rotational Kinematics', userColor: '#4bb2c5'},
+                    {label: 'Conservation of Momentum', userColor: '#c5b47f'},
+                    {label: 'Conservation of Mechanical Energy', userColor: '#EAA228'},
+                    {label: 'Gravitational Potential Energy', userColor: '#579575'},
+                    {label: 'Quantization', userColor: '#839557'},
+                    {label: 'Small angle approximation', userColor: '#958c12'},
+                    {label: 'Wave Model of light', userColor: '#953579'},
+                    {label: 'Angular Frequency', userColor: '#4b5de4'},
+                    {label: 'Doppler Effect', userColor: '#d8b83f'},
+                    {label: 'Huygens Principle', userColor: '#ff5800'}];
+
+                var answers = [9, 3, 11, 7, 2];
+
+                var choice_a = [10, 5, 6, 1, 30, 40, 7, 8, 9, 40];
+                var choice_b = [10, 5, 6, 1, 30, 40, 7, 21, 9, 4];
+                var choice_c = [10, 5, 6, 1, 30, 40, 16, 8, 9, 20];
+                var choice_d = [5, 6, 1, 30, 40, 7, 8, 9, 40, 8];
+                var choice_e = [1, 30, 40, 7, 8, 9, 40, 10, 5, 6];
+
+                function showLabels(div) {
+                    var series = [];
+                    var seriesColors = [];
+                    
+                    for(var i = 0; i < tags.length; i++) {
+                        series[i] = {name: tags[i].label};
+                        seriesColors[i] = tags[i].userColor;
+                    }
+                    
+                    $(div).kendoChart({
+                        theme: $(document).data('kendoSkin') || 'default',
+                        seriesDefaults: {type: 'column'},
+                        series: series,
+                        seriesColors: seriesColors,
+                        legend: {position: 'custom'},
+                        dataSource: {data: tags},
+                        valueAxis: {visible: false, majorTickType: 'none', majorGridLines: {visible: false}},
+                        categoryAxis: {visible: false, field: 'answer', majorTickType: 'none', majorGridLines: {visible: false}}
+                    });
+                }
+
+                function answersChart(values) {
+                    var data = [{answer: 'A'}, {answer: 'B'}, {answer: 'C'}, {answer: 'D'}, {answer: 'E'}];
+                    var correct_answers = [0, 2];
+
+                    for (var i = 0; i < values.length; i++) {
+                        data[i].value = values[i];
+                        data[i].userColor = correct_answers.indexOf(i) == -1 ? '#cccccc' : '#559955';
+                    }
+
+                    $('#answers').kendoChart({
+                        theme: $(document).data('kendoSkin') || 'default',
+                        dataSource: {data: data},
+                        seriesDefaults: {type: 'column'},
+                        series: [{field: 'value', colorField: 'userColor'}],
+                        valueAxis: {majorTickType: 'none', majorGridLines: {visible: false}},
+                        categoryAxis: {field: 'answer', majorTickType: 'none', majorGridLines: {visible: false}}
+                    });
+                }
+
+                function choiceChart(div, values, title, correct) {
+                    var data = tags;
+
+                    for (var i = 0; i < values.length; i++) {
+                        data[i].value = values[i];
+                    }
+                    
+                    var titleColor = correct ? '#33cc33' : '#555555';
+
+                    $(div).kendoChart({
+                        theme: $(document).data('kendoSkin') || 'default',
+                        dataSource: {data: data},
+                        seriesDefaults: {type: 'column'},
+                        series: [{field: "value", colorField: 'userColor'}],
+                        categoryAxis: {majorTickType: 'none', majorGridLines: {visible: false}},
+                        valueAxis: {min: 0, max: 100, labels: {format: '{0}%'}, majorTickType: 'none', majorGridLines: {visible: false},
+                            title: {text: title, rotation: 1, color: titleColor}},
+                        chartArea: {border: {color: '#ffff00'}}
+                    });
+                }
+
+                answersChart(answers);
+                showLabels('#tags');
+                choiceChart('#choice_a', choice_a, 'A', true);
+                choiceChart('#choice_b', choice_b, 'B', false);
+                choiceChart('#choice_c', choice_c, 'C', true);
+                choiceChart('#choice_d', choice_d, 'D', false);
+                choiceChart('#choice_e', choice_e, 'E', false);
+            });
+        </script>
+    </head>
+
+    <body>
+        <section class="graphs">
+            <div style="display: inline-block; vertical-align: bottom;">
+                <div>
+                    <div id="answers"></div>
+
+                    <div id="tags"></div>
+                </div>
+
+                <div id="choice_a" class="chart"></div>
+
+                <div id="choice_b" class="chart"></div>
+            </div>
+
+            <div style="display: inline-block; vertical-align: bottom;">
+                <div id="choice_c" class="chart"></div>
+
+                <div id="choice_d" class="chart"></div>
+
+                <div id="choice_e" class="chart"></div>
+            </div>
+        </section> 
+    </body>
+</html>

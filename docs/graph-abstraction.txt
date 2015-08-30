@@ -1,0 +1,24 @@
+//for drawing 1 graph
+graph(
+    name, //Name of the graph
+    labels [], //Array of labels
+    values [], //Array of values
+    style, //String, determine what kind of graph will be displayed
+    options //Object, Options specific to a particular style
+)
+
+//for drawing 1 or more graphs
+graphs(
+    name[], //Array of graph names
+    labels [], //Array of labels
+    values [][], //Array of array of values
+    style, //String, determine what kind of graph will be displayed
+    options //Object, Options specific to a particular style
+)
+
+//for drawing the label alone
+labels(
+    labels[], //Array of labels
+    style, //String, determine what kind of graph will be displayed
+    options //Object, Options specific to a particular style
+)

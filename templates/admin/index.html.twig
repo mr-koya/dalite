@@ -1,0 +1,46 @@
+{% include 'head.html.twig' %}
+
+{% include 'header.html.twig' %}
+
+<section id="main-content">
+	
+  {% include '/admin/navbar.html.twig' %}
+	
+  <div class="landingpage-intotext">
+    <p>Welcome to Dalite. You will find here all the assignments you have created. Click on an assignment to view. Use the buttons above to navigate the admin section.</p>
+  </div>
+  <article class="available-courses">    
+    <header>
+      <hgroup>
+        <h1>Your Assignments</h1>    
+      </hgroup>
+    </header>
+    <section class="available-courses">
+      <form action="/admin/assignment-results" method="POST" class="form">
+        <fieldset>
+          {% for assignment in assignments %}
+            <article class="available-course" style="display: block; clear: both;">
+              <div class="stassignment-icon" style="float:left;">
+                <input type="submit" name="assignment" value="{{assignment['assignment_']}}" class="btn btn-primary icon-pencil"></input>
+              </div> 
+              <div class="stassignment-details" style="float: left;">
+                <p>{{assignment['name']}} 
+                <span class="moredetails">Course: {{assignment['title']}} </span></p>
+              </div>
+              <div class="clear"></div>
+            </article>
+          {% endfor %}           
+          <div class="clear"></div>
+        </fieldset>
+      </form>
+    </section>
+  </article>
+	
+	
+	
+</section>
+
+<footer id="main-footer"></footer>
+
+</body>
+</html>

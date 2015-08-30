@@ -1,0 +1,165 @@
+{% include 'head.html.twig' %}
+<style>
+        .star {display: none; margin: 0px 5px 0px 0px;}
+</style>
+
+<script>
+    function enableChoice(side) {
+        $('#' + side + 'choice').attr('class', side + ' selected-standalone-rationale');
+    }
+    
+    function disableChoice(side) {
+        $('#' + side + 'choice').attr('class', side + ' deselected-standalone-rationale');
+    }
+    
+    function chooseLeftRationale() {}
+    
+    function chooseRightRationale() {}
+    
+    function enableRight() {
+        enableChoice('right');
+        disableChoice('left');
+        chooseLeftRationale = function() {};
+        chooseRightRationale = function(response_) {selectRationale(response_);};
+        document.getElementById('second_answer').value = document.getElementById('rightButton').value;
+        prompt('right');
+        unprompt('left');
+    }
+    
+    function enableLeft() {
+        enableChoice('left');
+        disableChoice('right');
+        chooseRightRationale = function() {};
+        chooseLeftRationale = function(response_) {selectRationale(response_);};
+        document.getElementById('second_answer').value = document.getElementById('leftButton').value;
+        prompt('left');
+        unprompt('right');
+    }
+    
+    function prompt(side) {
+        document.getElementById(side + '_prompt').innerHTML = 
+        '<div class="alert"> Choose a rationale by clicking on it. <br />' + 
+        'or continue by choosing <input type="button" class="btn btn-primary" onclick="selectRationale(null);" value="none of the below" /></div>';
+    }
+    
+    function unprompt(side) {
+        document.getElementById(side + '_prompt').innerHTML = '';
+    }
+    
+    function selectRationale(response_) {
+        document.getElementById('response_').value = response_;
+        if(response_ != null) {
+            $('#star' + response_).show();
+        }  
+        setTimeout(function() {document.getElementById('form').submit();}, 5000);
+    }
+</script>
+{% include 'header.html.twig' %}
+{% include 'init.twig' %}
+{% import 'media.html.twig' as media %}
+{% set q = question[question_num] %}
+
+
+{% set r_rationale = rationales %}
+{% set l_rationale = rationales2 %}
+{% set r_answer = q['answer']%}
+{% set l_answer = other%}
+
+{% if swap %}
+{%    set temp = l_answer %}
+{%    set l_answer = r_answer %}
+{%    set r_answer = temp %}
+{%    set temp2 = l_rationale %}
+{%    set l_rationale = r_rationale%}
+{%    set r_rationale = temp2%}
+{% endif %}
+
+
+<div class="clear"></div>
+<section id="main-content">
+
+    {% include 'question-header.html.twig' with {'class': 'question part-3'} %}
+
+    <section class="question">
+      <div class="img-upload">
+            {% include 'media.html.twig' with {'media': q['media1'], 'type': 'image'} %}
+      </div>
+
+        {% include 'form-begin.html.twig' with {'action': '/question-part4'} %}
+        <input type="hidden" id="response_" name="response_" />
+        <input type="hidden" id="second_answer" name="second_answer" />
+        <div class="control-group question">
+          <article class="student-rationale">
+            <!--<h2>Your rationale</h2>-->
+            <h2>You answered: 
+            {% if q['alpha'] == 1 %}
+                {{ alpha[request['answer']] }}
+            {% else %}
+                {{ request['answer'] }}
+            {% endif %}
+            </h2>
+            <p>Your rationale: {{request['rationale']}}</p>
+            <!--<h2>Your answer was:  request['answer'] }}</h2>-->
+          </article>
+          <p>4. Consider the problem again, noting the rationales below that have been provided by other students. They may, or may not, cause you to reconsider your answer. Read them, and select your final answer...</p>
+        </div>
+            
+        </form>
+        </div>
+      <!--/div-->
+      <div style="clear: both;"></div>
+      
+      <div style="clear: both;"></div>
+      <div class="left standalone-rationale" id="leftchoice">
+          <article>
+              <h2>
+                  <span>
+                      Is the answer: 
+                      <input type="button" class="btn btn-primary" onclick="enableLeft();" id="leftButton"
+                             name="C{{l_answer}}"
+                        {% if q['alpha'] == 1 %}
+                             value="{{alpha[l_answer]}}" 
+                        {% else %}
+                             value="{{l_answer}}"
+                        {% endif %}
+                      />
+                 </span>
+              </h2>
+
+          <p id="left_prompt"></p>
+          {% for r in l_rationale %}
+          <p onclick="chooseLeftRationale('{{ r['response_'] }}');">
+          <img src="/img/star.png" alt="star" id="star{{ r['response_'] }}" class="star" />{{ r['rationale'] }}</p>
+          {% endfor %}         
+      </article>        
+    </div>
+      
+      <div class="right standalone-rationale" id="rightchoice">
+        <article>
+              <h2>
+                  <span>
+                      Is the answer: 
+                      <input type="button" class="btn btn-primary" onclick="enableRight();" id="rightButton"
+                             name="C{{r_answer}}"
+                        {% if q['alpha'] == 1 %}
+                             value="{{alpha[r_answer]}}" 
+                        {% else %}
+                             value="{{r_answer}}"
+                        {% endif %}
+                      />
+                 </span>
+              </h2>
+
+          <p id="right_prompt"></p>
+          {% for r in r_rationale %}
+          <p onclick="chooseRightRationale('{{ r['response_'] }}');">
+          <img src="/img/star.png" alt="star" id="star{{ r['response_'] }}" class="star" />{{ r['rationale'] }}</p>
+          {% endfor %}
+        </article>
+      </div>
+      
+    <div style="clear: both;"></div>
+    </section>
+    </article>
+</section>
+{% include 'footer.html' %}

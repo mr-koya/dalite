@@ -1,0 +1,86 @@
+{% include 'head.html.twig' %}
+
+<script>
+function showQuestionDlg(filename){
+	    $('#modal-img').attr("src","http://edu8.ca/img/q/" + filename);
+            $('#modal-content').modal('show');
+            return false;
+}
+function main(){
+       $( document ).tooltip();
+    $('#foo tr > *:nth-child('+1+')').toggle();
+}
+function fire() {
+    $('#foo tr > *:nth-child('+1+')').toggle();
+}
+$('#from').click(fire);
+</script>
+
+{% include 'header.html.twig' %}
+
+<div class="modal hide fade" id="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;
+        </button>
+    </div>
+    <div class="modal-body">
+        <img id="modal-img" src="" alt="Question Missing">
+    </div>
+</div>
+
+<section id="main-content">
+
+{% include '/admin/navbar.html.twig' %}
+<button onclick="fire()">show students</button>
+	<section class="generic teal">
+		<h1>Assignment Results</h1>
+		<h2 class="purple-bg"></h2>
+
+		<table id="foo" class="table regular-table">
+
+			<thead>
+				<tr>
+					<th>Student name</th>
+                                        {% for i in 1 .. question_list|length %}                                            
+                                        <th colspan="2">
+                                            <a href="#" title="{{ question_list[i-1]['rationale'] }}" onclick="showQuestionDlg('{{ question_list[i-1]['media1'] }}')">Q{{i}}</a>
+                                        </th>
+                                        {% endfor %}
+				</tr>
+			</thead>
+
+			
+
+			<tbody>
+			       {% for r in student_results %}
+				<tr>
+                        		<td>{{r[0]['firstname']}} {{r[0]['lastname']}}</td>
+                                        {% for response_num in 0..r|length-1  %}
+                                        {% set color = r[response_num]['correct'] ? 'green':'red' %}
+                                        
+					<td><a href="#" title="{{ r[response_num]['s_rationale'] }}" class="{{ color }}">P{{1 + response_num % 2}}</a></td>
+                                        {% set color = r[response_num]['second_correct'] ? 'green':'red' %}
+                                        <td><a href="#" title="{{ r[response_num]['s_rationale'] }}" class="{{ color }}">P{{1 + response_num % 2}}</a></td>
+                                        {% endfor %}
+				</tr>
+				{% endfor %}
+
+			</tbody>
+
+			<tfoot>
+				<tr>
+                                    <td/><td colspan="25">Legend: <span class="not-answered">not<br />answered</span>  <span class="attempt-correct">attempt <br />correct</span>  <span class="attempt-wrong">attempt<br />wrong</span></td>
+				</tr> 
+			</tfoot>
+
+		</table>
+
+	</section>
+	
+</section>
+
+<footer id="main-footer"></footer>
+
+</body>
+</html>

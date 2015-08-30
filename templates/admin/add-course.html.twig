@@ -1,0 +1,101 @@
+{% include 'head.html.twig' %}
+
+{% include 'header.html.twig' %}
+
+<section id="main-content">
+
+{% include '/admin/navbar.html.twig' %}
+
+						
+    
+<form id="form" class="form-search" ACTION="" METHOD="POST" enctype="multipart/form-data">
+<div class="accordion" id="accordion2">
+
+	<section class="generic teal">
+		<h1>Add a course</h1>
+
+            	<article class="accordion-group">
+			<div class="accordion-heading">
+				<h1>Course name</h1>
+			</div>
+
+			<div id="collapseOne" class="accordion-body collapse in">
+				<div class="accordion-inner">
+
+					<div class="context">
+						<p class="greyed"></p>
+					</div>
+                                        <div class="fill-info">					
+			<div id="error-name"></div>
+                                                   <input id="name" name="name" type="text" class="input-medium search-query" placeholder="">
+						
+					</div>
+				</div>
+			</div>
+
+		</article>
+		
+		<article class="accordion-group">
+			<div class="accordion-heading">
+                            <h1>Student Class List</h1>                                
+			</div>
+			<div id="collapseTwo" class="accordion-body collapse in">
+				<div class="accordion-inner">
+
+					<div class="context">
+						<p class="greyed"></p>
+					</div>
+					<div class="fill-info">					
+			<div id="error-file"></div>
+                                            <input type="file" name="file" id="file" placeholder="upload Student-List CSV"></input><!--<span class="greyed">Student list uploaded</span>-->	
+                                                <p style="margin-top: 8px;"><a href="/docs/student.csv"><em>Get a blank Students-List CSV template file</em></a></p>
+					</div>
+				</div>
+			</div>
+		</article>
+		<article class="accordion-group">
+			<div class="accordion-heading">
+				<h1>Save Course</h1>
+			</div>
+			<div id="collapsethree" class="accordion-body collapse in">
+				<div class="accordion-inner">
+
+					<div class="context">
+						<p class="greyed"></p>
+					</div>
+
+					<div class="fill-info">
+						<a href="javascript: submitform()"><button type="button" class="btn btn-success">Save course »</button></a>
+					</div>
+			</div>
+			</div>
+		</article>
+
+	</section>
+	
+</div>
+</form>
+<script>
+function submitform()
+{
+	if(validateform())
+		$('#form').submit();
+}
+function validateform(){
+	if(!$("#name").val().length){
+		$("#error-name").html('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>Name Missing.</div>');
+		return false;
+	}        
+	if(!$("#file").val().length){
+		$("#error-file").html('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>File Missing.</div>');
+		return false;
+	}        
+	return true;
+}
+</script>
+</section>
+
+<footer id="main-footer"></footer>
+
+</body>
+</html>

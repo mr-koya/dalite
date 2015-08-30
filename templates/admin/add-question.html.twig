@@ -1,0 +1,334 @@
+{% include 'head.html.twig' %}
+<script type="text/javascript" src="/scripts/jquery.form.js"></script>
+<script type="text/javascript" src="/scripts/multiple-choice-config.js"></script>
+<script type="text/javascript" src="/scripts/media-upload.js"></script>
+<script>
+    $(function() {$("#menu").menu();});
+</script>
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+{% include 'header.html.twig' %}
+
+<section id="main-content">
+
+{% include '/admin/navbar.html.twig' %}
+
+  <div class="accordion" id="accordion2">
+
+    <section class="generic teal">
+      <h1>Add a question</h1>
+      <form action="" method="POST" class="form-search" enctype="multipart/form-data" id="form">
+        <article class="accordion-group">
+          <div class="accordion-heading">
+            <h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">Question title </a> <a href="#" rel="tooltip" title="*required field"><span class="fill">*</span></a></h1>
+          </div>
+          <div id="collapseThree" class="accordion-body in collapse">
+            <div class="accordion-inner">
+
+              <div class="context">
+                <p class="greyed">The question name must follow the conventions of course name abreviation plus question and number: LynDynQ14.</p>
+              </div>                                                                        
+
+              <div class="fill-info">
+                <div id="description_error"></div>
+                <textarea style="height: 23px !important; width: 65%" name="description" id="description"></textarea><!--<span class="icon-question-sign"></span>-->
+              </div>
+            </div>
+          </div>
+        </article>
+          
+        <article class="accordion-group">
+          <div class="accordion-heading">
+            <h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">Add main question image/video - A</a> <a href="#" rel="tooltip" title="*required field"><span class="fill">*</span></a></h1>
+          </div>
+
+          <div id="collapseOne" class="accordion-body in collapse">
+            <div class="accordion-inner">
+
+              <div class="context">
+                <p class="greyed">Choose either a video or image to include on the first page of the question. </p>
+              </div>                                                                           
+
+              <div class="fill-info">
+                <div id="media_error"></div>
+                <p>
+
+                  <input type="radio" name="media1" value="Image" checked="checked"> Image:                                               
+                  <input type="file" name="media1" placeholder="Choose and upload &raquo;">
+                  <input type="hidden" name="filename1" id="filename" />
+
+                <div id="img_div">
+                  <img id="img_show" style="display: none;" />
+
+                  <span class="greyed" style="display: block;" id="img_success"></span>
+                </div>
+
+                </p>
+
+                <p style="display: inline;"><input type="radio" name="media1" value="Video"></p>
+                <label> Youtube Video: </label>
+                <input type="text" class="input-medium search-query" id="youtube" placeholder="Copy and paste Youtube url here...">
+                <input type="hidden" name="youtube1_id" id="youtube1_id"/>
+                <div id="youdiv" style="display: none;">
+                  <iframe style="display: none;" id="youframe" width="420" height="345" ></iframe>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </article>
+
+        <article class="accordion-group">
+          <div class="accordion-heading">
+            <h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">Add secondary image/video - B  <span class="icon-share-alt"></span></a></h1>
+          </div>
+          <div id="collapseTwo" class="accordion-body collapse">
+            <div class="accordion-inner">
+
+              <div class="context">
+                <p class="greyed">Choose either a video or image to include on the first page of the question, where students select concept tags. This is only used if you want the question to be hidden when students select concept tags; instead, a preliminary video or image can be displayed. The main question image will be displayed on all subsequent pages.</p>
+              </div>
+
+              <div class="fill-info">
+                <p>
+                  <input type="radio" name="media2" value="Image" checked="checked"> Image:
+                  <input type="file" name="media2" placeholder="Choose and upload &raquo;">
+                  <input type="hidden" name="filename2" id="filename" />
+
+                <div id="img_div">
+                  <img id="img_show" style="display: none;" />
+
+                  <span class="greyed" style="display: block;" id="img_success"></span>
+                </div> 
+                </p>
+
+                <p style="display: inline;"><input type="radio" name="media2" value="Video"></p>
+                <label> Youtube Video: </label>
+                <input type="text" class="input-medium search-query" id="youtube" placeholder="Copy and paste Youtube url here...">
+                <input type="hidden" name="youtube2_id" id="youtube2_id" />
+                <div id="youdiv" style="display: none;">
+                  <iframe style="display: none;" id="youframe" width="420" height="345" ></iframe>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </article>
+
+        
+
+          <!--<article class="accordion-group">
+                  <div class="accordion-heading">
+                          <h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive">Add new concept tags <span class="icon-share-alt"></span></a></h1>
+                  </div>
+                  <div id="collapseFive" class="accordion-body collapse">
+                          <div class="accordion-inner">
+
+                                  <div class="context">
+                                          <p class="greyed">Type element names required that do not appear in the above concept tag lists. Comma delimited, no quotes.</p>
+                                  </div>
+
+                                  <div class="fill-info">
+                                                  <label class="control-label">a) add new correct concept elements</label>
+                                            <textarea></textarea>
+
+                                                  <label class="control-label">b) add new concept elements to display</label>
+                                            <textarea></textarea><
+                                  </div>
+                  </div>
+                  </div>
+          </article>-->
+
+          <article class="accordion-group">
+            <div class="accordion-heading">
+              <h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSix">Define correct answer variables </a> <a href="#" rel="tooltip" title="*required field"><span class="fill">*</span></a></h1>
+            </div>
+            <div id="collapseSix" class="accordion-body in collapse">
+              <div class="accordion-inner">
+
+                <div class="context">
+                  <p class="greyed">Here you define the answer variables so that they correspond to the image for the question. You first define whether the answers are alpha or numeric, then the number of choices and finally the correct answer.</p>
+                </div>
+
+                <div class="fill-info">
+                  <div id="choice_error"></div>
+                  <div style="margin-bottom: 5px;"><label style="display: inline">Select answer style</label>: 
+                    <input type="radio" name="alpha" value="alpha"> alpha (a,b,c) | 
+                    <input type="radio" name="alpha" value="numeric"> numberic (1,2,3)</div>
+                  <label style="display: inline;">Number of choices:</label>
+                  <select style="width: 50px;" name="num_choice">
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option selected>5</option>
+                  </select>
+                  <div style="display: block; height: 28px;">
+                    <label class="answerdecription" style="padding-top: 5px;">Correct answer: </label>
+
+                    <label class="checkbox inline" id="inLineLabel1" >
+                      <input type="radio" id="answer" name="answer" value="1">
+                      <span>1</span>
+                    </label>
+                    <label class="checkbox inline" id="inLineLabel2">
+                      <input type="radio" id="answer" name="answer" value="2">
+                      <span>2</span>
+                    </label>
+                    <label class="checkbox inline" id="inLineLabel3">
+                      <input type="radio" id="answer" name="answer" value="3">
+                      <span>3</span>
+                    </label>
+                    <label class="checkbox inline" id="inLineLabel4">
+                      <input type="radio" id="answer" name="answer" value="4">
+                      <span>4</span>
+                    </label>
+                    <label class="checkbox inline" id="inLineLabel5">
+                      <input type="radio" id="answer" name="answer" value="5">
+                      <span>5</span>
+                    </label>
+                  </div>
+                  <div style="display:block; height: 28px;">
+                    <label class="answerdecription" style="padding-top: 5px;">Second best answer: </label>
+                    <label class="checkbox inline" id="inLineLabel1">
+                      <input type="radio" id="second_choice" name="second_choice" value="1">
+                      <span>1</span>
+                    </label>
+                    <label class="checkbox inline" id="inLineLabel2">
+                      <input type="radio" id="second_choice" name="second_choice" value="2">
+                      <span>2</span>
+                    </label>
+                    <label class="checkbox inline" id="inLineLabel3">
+                      <input type="radio" id="second_choice" name="second_choice" value="3">
+                      <span>3</span>
+                    </label>
+                    <label class="checkbox inline"  id="inLineLabel4">
+                      <input type="radio" id="second_choice" name="second_choice" value="4">
+                      <span>4</span>
+                    </label>
+                    <label class="checkbox inline"  id="inLineLabel5">
+                      <input type="radio" id="second_choice" name="second_choice" value="5">
+                      <span>5</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="accordion-group">
+            <div class="accordion-heading">
+              <h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSeven">Add example of a good rationale</a> <a href="#" rel="tooltip" title="*required field"><span class="fill">*</span></a></h1>
+            </div>
+            <div id="collapseSeven" class="accordion-body in collapse">
+              <div class="accordion-inner">
+                <div class="context">
+                  <p class="greyed">Type in an example of a good rationale for the question.</p>
+                </div>
+
+                <div class="fill-info">
+                  <div id="rationale_error"></div>
+                  <textarea name="rationale"></textarea><!--<span class="icon-question-sign"></span>-->
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="accordion-group">
+            <div class="accordion-heading">
+              <h1><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseEight">Save question</a></h1>
+            </div>
+            <div id="collapseEight" class="accordion-body collapse in">
+              <div class="accordion-inner">
+
+                <div class="context">
+                  <p class="greyed">Click button to save your data and add your question. It will be available in the <a href="http://edu8.ca/admin/add-assignment" style="color:#999 !important;">Assignment Builder</a></p>
+                </div>
+
+                <div class="fill-info">
+                  <a href="javascript: submitform();"><button type="button" class="btn btn-success">Save question »</button></a>
+                </div>
+              </div>
+            </div>
+          </article>
+        </form>
+
+      </section>
+
+    </div>
+
+  </section>
+
+  <script>
+  function submitform()
+  {
+          //Clears the error messages before submitting.
+          $('#rationale_error').html('');
+          $('#choice_error').html('');
+          $('#concepts_error').html('');
+          $('#description_error').html('');
+          $('#media_error').html('');
+        
+          if(validateform()) {
+              //$('#concept_list').val($('#concepts').val());
+              //Begin dom version of above javascript line.
+              var concepts = document.getElementById('concepts');
+              var selected_concepts = [];
+            
+              for(var i = 0; i < concepts.options.length; i++) {
+                  if(concepts.options[i].selected) {
+                      selected_concepts.push(concepts.options[i].value);
+                  }
+              }
+        
+              selected_concepts = selected_concepts.join(',');
+              document.getElementById('concept_list').value = selected_concepts;
+              //End dom version of above javascript line.
+            
+              $('#form').unbind('');
+              $('#form').submit();
+          }
+  }
+
+  function validateform(){
+          var valid = true;
+        
+          if($('#collapseSeven #rationale').val() == '') {
+              $('#rationale_error').html('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>Please enter a rationale.</div>');
+              $('html,body').animate({scrollTop: $('#collapseSeven').offset().top},'slow');
+              valid = false;
+          }
+ 
+          if($('#collapseSix #answer:checked').val() == undefined || $('#collapseSix #second_choice:checked').val() == undefined) {
+              $('#choice_error').html('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>Please select a first and second correct answer for the question.</div>');
+              $('html,body').animate({scrollTop: $('#collapseSix').offset().top},'slow');
+              valid = false;
+          }
+        
+          if($('#collapseFour #concepts').val() == null) {
+              $('#concepts_error').html('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>Please choose at least one concept from the list below.</div>');
+              $('html,body').animate({scrollTop: $('#collapseFour').offset().top},'slow');
+              valid = false;
+          }
+        
+          if($('#collapseThree #description').val() == '') {
+              $('#description_error').html('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>Please enter a question.</div>');
+              $('html,body').animate({scrollTop: $('#collapseThree').offset().top},'slow');
+              valid = false;
+          }
+        
+          if($('#collapseOne #filename').val() == '' && $('#collapseOne #youtube1_id').val() == '') {
+              $('#media_error').html('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>Please upload an image or add a youtube video.</div>');
+              $('html,body').animate({scrollTop: $('#collapseOne').offset().top},'slow');
+              valid = false;
+          }
+    
+          return valid;
+  }
+    </script>
+
+    <footer id="main-footer"></footer>
+
+
+
+  </body>
+</html>

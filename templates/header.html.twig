@@ -1,0 +1,35 @@
+</head>
+<body>
+
+<section id="header">
+	<header>
+		<hgroup>
+			<h1 title="Dalite"><a href="/"><span>D</span><span>a</span><span>l</span><span>i</span><span>t</span><span>e</span></a></h1>
+			<h2 title="Access to Learning and Interactive Technologies">Access to Learning and Interactive Technologies</h2>
+		</hgroup>
+	</header>
+	
+	<div class="btn-group drop-log-out">
+          <p style="color: #dbdbdb">
+              {% if student %}
+              You are logged in as {{ student['firstname'] }} {{ student['lastname'] }} {{ student['is_professor'] ? '<a href="/admin">admin</a> | ' }} <a href="/reset"><b>logout</b></a>
+              
+              {% else %}
+              You are not logged in.
+              {% endif %}
+
+          </p>
+	</div>
+</section>
+
+<div class="clear"></div>
+
+<div class="modal hide fade" id="modal-message-dlg">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal" aria-hidden="true">&times;</a><h3>&nbsp;</h3>
+  </div>  
+  <div class="modal-body" id="modal-message">  
+    <h4>{{ message_dlg }}</h4>
+  </div>
+  <div class="modal-footer"><a href="#" class="btn btn-primary" data-dismiss="modal">Continue</a></div>
+</div>

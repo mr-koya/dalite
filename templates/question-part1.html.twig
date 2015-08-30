@@ -1,0 +1,29 @@
+{% include 'head.html.twig' %}
+{% include 'header.html.twig' %}
+{% include 'init.twig' %}
+
+{% set q = question[question_num] %}
+<section id="main-content">
+  {% include 'question-header.html.twig' with {'class': 'question part-1'} %}
+    <section class="question">
+    <div id="error_msg"></div>
+      <div class="img-upload">
+            {% include 'media.html.twig' with {'media': q['media1'], 'type': 'image'} %}
+      </div>
+        {% include 'form-begin.html.twig' with {'action': '/question-part2'} %}
+            <div class="control-group">
+              <p>Consider the following question.</p>
+            </div>
+        {% include 'form-end.html.twig' %}
+        <script>
+        function validateform(){
+            return true;
+        }
+        </script>
+      <div class="clear"></div>
+    </section>
+
+  </article>
+</section>
+
+{% include 'footer.html' %}

@@ -1,0 +1,14 @@
+{
+    "require": {
+        "symfony/http-foundation": "2.1.8",
+        "symfony/routing": "2.1.8",
+        "symfony/finder": "2.1.8",
+        "twig/twig": "1.12.2",
+        "doctrine/dbal": "2.3.2"
+    },
+    "autoload": {
+        "psr-0": {"Edu8": "src/"}
+    }
+
+}
+

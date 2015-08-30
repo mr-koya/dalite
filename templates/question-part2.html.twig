@@ -1,0 +1,80 @@
+{% include 'head.html.twig' %}
+{% include 'header.html.twig' %}
+{% import 'media.html.twig' as media %}
+{% set q = question[question_num] %}
+
+<section id="main-content">
+    {% include 'question-header.html.twig' with {'class': 'question part-2'} %}
+    <section class="question">
+         <div class="img-upload">
+            {% include 'media.html.twig' with {'media': q['media1'], 'type': 'image'} %}
+        </div>
+
+        {% include 'form-begin.html.twig' with {'action': '/question-part3'} %}
+            <div class="control-group question alphanumeric">
+              <div id="error_answer"></div>
+              <p>2. Select the correct answer:</p>
+              {% if q['alpha'] == 0 %}
+                {% for count in 1..q['num_choice'] %}
+                    <label class="checkbox">
+                      <input type="radio" name="answer" value="{{ count }}">
+                    {{ count }}
+                    </label>
+                {% endfor %}
+              {% else %}
+                {% for count in 1..q['num_choice'] %}
+                    <label class="checkbox">
+                      <input type="radio" name="answer" value="{{ count }}">
+                    {{ alpha[count] }}
+                    </label>
+                {% endfor %}
+              {% endif %}
+
+            </div>
+          </fieldset>
+
+            <div id="error_rationale"></div>
+            <p>3. Provide a rationale for the answer that you chose above:</p>
+            <textarea id="rationale" name="rationale" class="student-rationale-textbox"></textarea>
+            {% include 'form-end.html.twig' %}
+          </div>
+
+        <script>
+        function validateform(){
+            var inputs = document.getElementsByTagName('input');
+            var input_checked = false;
+            var rationale_entered = true;
+            
+            document.getElementById('error_answer').innerHTML = '';
+            document.getElementById('error_rationale').innerHTML = '';
+            
+            for(var i = 0; i < inputs.length; i++) {
+                if(inputs[i].checked == true) {
+                   input_checked = true; 
+                }
+            }
+            
+            if(input_checked == false) {
+                document.getElementById('error_answer').innerHTML = 
+                '<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>Choose an answer.</div>';
+            }
+            
+            if(document.getElementById('rationale').value.length < 20) {
+                rationale_entered = false;
+                
+                document.getElementById('error_rationale').innerHTML = 
+                '<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>Rationale too short.</div>';
+            }
+            
+            return(input_checked && rationale_entered);
+        }
+        </script>
+
+
+      <div class="clear"></div>
+    </section>
+
+  </article>
+</section>
+
+{% include 'footer.html' %}

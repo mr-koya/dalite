@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>DALITE</title>
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="/css/normalize.css" />
+	<link rel="stylesheet" href="/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/css/styles.css" />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/scripts/generic.js"></script>
+	<script type="text/javascript" src="/scripts/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/scripts/bootstrap-collapse.js"></script>
+	<!--[if lte IE 9]>
+		<script type="text/javascript" src="scripts/mootools-core-1.4.5-full-nocompat.js"></script>
+		<script type="text/javascript" src="scripts/selectivizr-min.js"></script>
+		<script type="text/javascript" src="scripts/modernizr.js"></script>
+	<![endif]-->
+	<!--[if gte IE 9]>
+		<style type="text/css">
+			.gradient {
+				 filter: none;
+			}
+		</style>
+	<![endif]-->
+        <script type="text/javascript">
+                $(function() {
+                    if (typeof main!='undefined')
+                        main();
+                    {% if message_dlg is defined %}
+                    $('#modal-message').innerHTML = '{{ message_dlg }}';
+                    $('#modal-message-dlg').modal('show');
+                    {% endif %}
+                        
+                });
+        </script>

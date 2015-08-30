@@ -1,0 +1,36 @@
+{% include 'head.html.twig' %}
+{% include 'header.html.twig' %}
+
+<section id="main-content">
+  <div class="landingpage-intotext">
+    <p>Welcome to Dalite. You will find here all the courses your prof has made available to you for your classes. Click on an assignment to begin the questions.</p>
+  </div>
+  <article class="available-courses">    
+    <header>
+      <hgroup>
+        <h1>Available Assignments</h1>    
+      </hgroup>
+    </header>
+    <section class="available-courses">
+      <form action="/question-part1" method="POST" class="form">
+        <fieldset>
+          {% for assignment in assignments %}
+            <article class="available-course" style="display: block; clear: both;">
+              <div class="stassignment-icon" style="float:left;">
+                <input type="submit" name="assignment" value="{{assignment['assignment_']}}" class="btn btn-primary icon-pencil"></input>
+              </div> 
+              <div class="stassignment-details" style="float: left;">
+               <p>{{assignment['name']}} 
+                <span class="moredetails">Course: {{assignment['title']}} </span>
+               </p>
+              </div>
+              <div class="clear"></div>
+            </article>
+          {% endfor %}           
+          <div class="clear"></div>
+        </fieldset>
+      </form>
+    </section>
+  </article>
+</section>
+{% include 'footer.html' %}

@@ -1,0 +1,146 @@
+{% include 'head.html.twig' %}
+
+<!-- styles and script for jQuery UI Sortable 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />-->
+    <style>
+        #sortable1, #sortable2,  #sortable3 { list-style-type: none; margin: 0; padding: 0; /*float: left;*/ margin-right: 10px; background: #eee; padding: 5px; /*width: 143px;*/}
+        #sortable1 li, #sortable2 li, #sortable3 li { margin: 5px; padding: 5px; font-size: .9em; /*width: 120px;*/ cursor: pointer; }
+        .addandsort {background-color: #C29C9B !important;}
+
+    </style>
+    <script>
+   function main() {
+        $( "#sortable1, #sortable2, #sortable3" ).sortable({
+	            connectWith: ".connectedSortable"
+		            }).disableSelection();
+    $( "#tabs" ).tabs();
+         $( "#sortable3" ).sortable({
+	    items: "li:not(.ui-state-disabled)"
+         });
+        $(document).on("click", "#sortable1 li", function(){
+	    $('#modal-img').attr("src","http://edu8.ca/img/q/" + $(this).data("media"));
+            $('#modal-content').modal('show');
+         });
+        $(document).on("click", "#sortable3 li", function(){
+	    $('#modal-img').attr("src","http://edu8.ca/img/q/" + $(this).data("media"));
+            $('#modal-content').modal('show');
+         });
+     } 
+    </script>
+    
+    
+{% include 'header.html.twig' %}
+
+<div class="modal hide fade" id="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      &times;
+    </button>
+  </div>
+<div class="modal-body">
+<img id="modal-img" src="" alt="Question Missing">
+</div>
+</div>
+
+
+<section id="main-content">
+
+{% include '/admin/navbar.html.twig' %}
+    <!--<section class="generic teal" style="padding: 1em;">
+        <h1>Add Assignment</h1>        
+    </section>-->
+   <style> 
+    table {table-layout:fixed;} 
+    td {vertical-align: top;}
+    li {font-size: .7em;}
+    </style>
+    <section class="question" style="margin: 0em 2em">
+        <h1>Assignment Builder</h1>
+        <p style="margin: 1em 2em 1.5em 1em; font-size: .9em;">Create a new assignment by dragging questions from any of the thematic tabs into the Assignment Builder "Drop and Sort Here" window. The questions can be reordered in the Assignment Builder at any time by dragging them up or down. Once you are finished click submit. If you wish to add a new question, click on the <a href="/admin/add-question">Add Question Button Above</a></p>
+        <div class="answer-form" >
+        <form id="form" action="/admin" method="POST" class="form-horizontal" style="margin: .5em 1em 0 1em;">  
+            <label>Assignment title: </label>
+			<div id="error-name"></div>
+            <input id="name" name="name" type="text" class="input-medium search-query" placeholder="">
+            <label>Course : </label>
+			<div id="error-course"></div>
+            <select id="course" name="course">
+                <option value="noCourse">Choose a course</option>
+                {% for course in courses %}
+                <option value="{{course['course_']}}">{{course['name']}}</option>
+                {% endfor %}
+            </select><input type="hidden" id="PostField" name="postvar" value="">
+        </form>
+        </div>
+<a href="javascript: submitform()"><button class="btn btn-primary" style="float: right; margin: 6em 1em 0 1em;">Submit&nbsp;&raquo;</button></a>
+    <br style="clear: both;" />        
+    <br style="clear: both;" />        
+    <table style="table-layout:fixed;"> <tr>
+<td style="vertical-align: top;">
+        <div id="tabs" style="width:550px; height:550px; float: left;">
+            <h1 style="color: #5A7279; font-size: .8em; margin-left: .7em;">Available Questions</h1>
+            <ul>
+                <li><a href="#tabs-1">Uncategorized</a></li>
+                <li><a href="#tabs-2">ID Kinematics</a></li>
+            </ul>
+            <div id="tabs-1"   style="height: 400px;overflow: scroll;">
+                <ul id="sortable1" class="connectedSortable ui-helper-reset">
+                {% for q in all_questions %}
+                    <li id="q={{ q['question_'] }}" data-media="{{ q['media1'] }}" class="ui-state-default">{{ q['description'] }} q-id: {{q['question_']}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div id="tabs-2">
+                <ul id="sortable2" class="connectedSortable ui-helper-reset">
+                    <li class="ui-state-highlight">Given x vs t graph, at which time is velocity most megative?</li>
+                    <li class="ui-state-highlight">Four compressed mass-springs, rank maximum speed.</li>
+                    <li class="ui-state-highlight">Given x vs t what is velocity and force at time indicated by dotted line?</li>
+                    <li class="ui-state-highlight">Kinetic energy at points A and B?</li>
+                    <li class="ui-state-highlight">Which time is kinetic energy greatest?</li>
+                </ul>
+            </div>
+        </div></td>
+        <td>
+			<div id="error-question"></div>
+        <ul id="sortable3" class="connectedSortable addandsort" style="margin: .2em; border: 1px #aaa solid;">
+            <li class="ui-state-default ui-state-disabled">DROP &amp; SORT QUESTIONS HERE!!!!!!</li>
+        </ul>
+</td>
+            </tr></table>
+        
+</section>
+    <script>
+function submitform()
+{
+   var qs = $( "#sortable3" ).sortable( "serialize" );
+    $('#PostField').val(qs);
+  if(validateform())
+  	$('#form').submit();
+}
+function isNumeric(input)
+{
+    return (input - 0) == input && input.length > 0;
+}
+function validateform(){
+	if(!$("#name").val().length){
+		$("#error-name").html('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>Missing title.</div>');
+		return false;
+	}        
+	if(!isNumeric($("#course").val())){
+		$("#error-course").html('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>Please select a course.</div>');
+		return false;
+	}        
+	if(!$("#PostField").val().length){
+		$("#error-question").html('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>No Questions were chosen.</div>');
+		return false;
+	}        
+	return true;
+}
+
+    </script>
+    <br style="clear: both;" />
+
+ 
+</div><!-- close #main-content -->
+</body>
+</html>

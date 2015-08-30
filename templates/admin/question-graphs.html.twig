@@ -1,0 +1,160 @@
+{% include 'head.html.twig' %}
+
+<link rel="stylesheet" href="/css/kendo.dataviz.min.css" />
+
+<script src="/scripts/kendo.dataviz.min.js"></script>
+
+<style>
+        .graphs {text-align: center;}
+        .chart {width: 500px; height: 200px;}
+        #answers {display: inline-block; width: 300px; height: 200px; vertical-align: top;}
+        #tags, #media {display: inline-block; width: 300px; height: 250px; vertical-align: top;}
+        #media img {width: 300px; height: 250px;}
+    </style>
+
+    <script>
+        $(document).ready(function() {
+            var tag_colors = ['#4bb2c5', '#c5b47f', '#EAA228', '#579575', '#839557', '#958c12', '#953579', '#4b5de4', '#d8b83f', '#ff5800'];
+
+            {% autoescape false %}
+                    var question_tag_graph = [{{ question_tag_graph }}];
+            {% endautoescape %}
+
+                    var tags = [];
+
+                    for (var i = 0; i < question_tag_graph.length; i++) {
+                        tags[i] = {label: question_tag_graph[i], userColor: tag_colors[i]};
+                    }
+
+                    var answers = [{{question_answers_graph}}];
+
+            {% for i in 0..num_choice-1 %}
+                    var choice_{{ i }} = [{{ answers_tags_graphs[i] }}];
+            {% endfor %}
+
+                    function correctChoice(choice) {
+                        var correct_choices = [{{ correct_choices }}];
+
+                        var is_correct = correct_choices.indexOf(choice + 1) == -1 ? false : true;
+
+                        return(is_correct);
+                    }
+
+                    function choiceName(choice, alpha) {
+                        if (alpha == 0) {
+                            return(choice + 1);
+                        } else {
+                            return(String.fromCharCode(choice + 'A'.charCodeAt(0)));
+                        }
+                    }
+
+                    function showLabels(div) {
+                        var series = [];
+                        var seriesColors = [];
+
+                        for (var i = 0; i < tags.length; i++) {
+                            series[i] = {name: tags[i].label};
+                            seriesColors[i] = tags[i].userColor;
+                        }
+
+                        $(div).kendoChart({
+                            theme: $(document).data('kendoSkin') || 'default',
+                            seriesDefaults: {type: 'column'},
+                            series: series,
+                            seriesColors: seriesColors,
+                            legend: {position: 'custom'},
+                            dataSource: {data: tags},
+                            valueAxis: {visible: false, majorTickType: 'none', majorGridLines: {visible: false}},
+                            categoryAxis: {visible: false, field: 'answer', majorTickType: 'none', majorGridLines: {visible: false}}
+                        });
+                    }
+
+                    function answersChart(values) {
+                        var data = [];
+                        var correct_answers = [0, 4];
+                        var alpha = {{ alpha }};
+                                for (var i = 0; i < values.length; i++) {
+                            data[i] = {value: values[i], answer: choiceName(i, alpha)};
+                            data[i].userColor = correctChoice(i) == false ? '#cccccc' : '#559955';
+                        }
+
+                        $('#answers').kendoChart({
+                            theme: $(document).data('kendoSkin') || 'default',
+                            dataSource: {data: data},
+                            seriesDefaults: {type: 'column'},
+                            series: [{field: 'value', colorField: 'userColor'}],
+                            valueAxis: {majorTickType: 'none', majorGridLines: {visible: false}},
+                            categoryAxis: {field: 'answer', majorTickType: 'none', majorGridLines: {visible: false}}
+                        });
+                    }
+
+                    function choiceChart(div, values, title, correct) {
+                        var data = tags;
+
+                        for (var i = 0; i < values.length; i++) {
+                            data[i].value = values[i];
+                        }
+
+                        var titleColor = correct ? '#33cc33' : '#555555';
+
+                        $(div).kendoChart({
+                            theme: $(document).data('kendoSkin') || 'default',
+                            dataSource: {data: data},
+                            seriesDefaults: {type: 'column'},
+                            series: [{field: "value", colorField: 'userColor'}],
+                            categoryAxis: {majorTickType: 'none', majorGridLines: {visible: false}},
+                            valueAxis: {min: 0, max: 100, labels: {format: '{0}%'}, majorTickType: 'none', majorGridLines: {visible: false},
+                                title: {text: title, rotation: 1, color: titleColor}},
+                            chartArea: {border: {color: '#ffff00'}}
+                        });
+                    }
+
+                    answersChart(answers);
+                    showLabels('#tags');
+
+                    var num_choice = {{ num_choice }};
+                            var alpha = {{ alpha }};
+                            for (var i = 0; i < num_choice; i++) {
+                        choiceChart('#choice_' + i, eval('choice_' + i), choiceName(i, alpha), correctChoice(i));
+                    }
+                });
+        </script>
+
+{% include 'header.html.twig' %}
+{% include 'init.twig' %}
+
+        <section class="graphs">
+            <div style="display: inline-block; vertical-align: bottom;">
+                <div>
+                    <div id="answers"></div>
+
+                    <div id="media"><img src="/img/{{ media1 }}" /></div>
+                </div>
+
+                {% for i in 0..num_choice_col1-1 %}
+                <div id="choice_{{ i }}" class="chart"></div>
+                {% endfor %}
+            </div>
+
+            <div style="display: inline-block; vertical-align: bottom;">
+                {% for i in num_choice_col1..num_choice-1 %}
+                    <div id="choice_{{ i }}" class="chart"></div>
+                {% endfor %}
+                </div>
+
+                <div>
+                    <div id="tags"></div>
+
+                    <form method="post">
+                        <select name="question_">
+                            {% for question in answered_questions %}
+                                <option value="{{ question['question_'] }}">{{ question['name'] }} {{ question['order'] }} ({{ question['num_responses'] }} responses)</option>
+                            {% endfor %}
+                            </select>
+                            
+                            <input class="btn btn-primary" type="submit" />
+                        </form>
+                    </div>
+                </section> 
+
+{% include 'footer.html' %}

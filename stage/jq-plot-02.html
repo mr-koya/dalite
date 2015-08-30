@@ -1,0 +1,129 @@
+<!doctype html>
+
+<html>
+
+    <head>
+        <meta charset="utf-8" />
+
+        <title>Question Results</title>
+
+        <script src="scripts/jquery.js"></script>
+        <script src="scripts/dist/jquery.jqplot.js"></script>
+        <script src="scripts/dist/plugins/jqplot.barRenderer.js"></script>
+        <script src="scripts/dist/plugins/jqplot.categoryAxisRenderer.js"></script>
+        <script src="scripts/dist/plugins/jqplot.pointLabels.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="scripts/dist/jquery.jqplot.min.css" />
+
+        <style>
+            body {margin-left: auto; margin-top: 2em; text-align: center;}
+            .graphs {display: inline-block;}
+            .chart {width: 500px; height: 200px;}
+            #answers {display: inline-block; width: 300px; height: 200px; vertical-align: top;}
+            #tags {display: inline-block; width:300px; height:250px; vertical-align: top;}
+        </style>
+    </head>
+
+    <body>
+        <script>
+            $(document).ready(function() {
+                var tags = [{label: 'Rotational Kinematics'},
+                    {label: 'Conservation of Momentum'},
+                    {label: 'Conservation of Mechanical Energy'},
+                    {label: 'Gravitational Potential Energy'},
+                    {label: 'Quantization'},
+                    {label: 'Small angle approximation'},
+                    {label: 'Wave Model of light'},
+                    {label: 'Angular Frequency'},
+                    {label: 'Doppler Effect'},
+                    {label: 'Huygens Principle'}];
+
+                var answers = [[5, 19, 1, 3, 1]];
+
+                var choice_a = [[10], [5], [6], [1], [30], [40], [7], [8], [9], [40]];
+                var choice_b = [[10], [5], [6], [1], [30], [40], [7], [8], [9], [40]];
+                var choice_c = [[10], [5], [6], [1], [30], [40], [7], [8], [9], [40]];
+                var choice_d = [[10], [5], [6], [1], [30], [40], [7], [8], [9], [40]];
+                var choice_e = [[10], [5], [6], [1], [30], [40], [7], [8], [9], [40]];
+
+                var labels = showLabels('tags');
+                var answers_graph = answersGraph('answers', answers);
+                var graph_a = choiceGraph('choice_a', choice_a, 'A', false);
+                var graph_b = choiceGraph('choice_b', choice_b, 'B', true);
+                var graph_c = choiceGraph('choice_c', choice_c, 'C', false);
+                var graph_d = choiceGraph('choice_d', choice_d, 'D', true);
+                var graph_e = choiceGraph('choice_e', choice_e, 'E', false);
+
+                function showLabels(div) {
+                    var ticks = [''];
+                    var seriesDefaults = {renderer: $.jqplot.BarRenderer, rendererOptions: {fillToZero: true}, showTickMarks: false, showTicks: false};
+                    var axes = {xaxis: {renderer: $.jqplot.CategoryAxisRenderer, ticks: ticks, showTickMarks: false, showTicks: false, show: false},
+                        yaxis: {pad: 1.05, showTickMarks: false, showTicks: false, show: false}};
+                    var plot = $.jqplot(div, [[0], [0], [0], [0], [0], [0], [0], [0], [0], [0]],
+                            {seriesDefaults: seriesDefaults,
+                                series: tags,
+                                legend: {show: true, placement: 'insideGrid', location: 'n'},
+                                axes: axes,
+                                grid: {drawGridLines: false, gridLineColor: '#ffffff', background: '#ffffff'}});
+                    return(plot);
+                }
+
+                function answersGraph(div, chart) {
+                    var ticks = ['A', 'B', 'C', 'D', 'E'];
+                    var seriesDefaults = {renderer: $.jqplot.BarRenderer, rendererOptions: {fillToZero: true, varyBarColor: true}};
+                    var axes = {xaxis: {renderer: $.jqplot.CategoryAxisRenderer, ticks: ticks, tickOptions: {showGridline: false, showMark: false}},
+                        yaxis: {pad: 1.05, min: 0, numberTicks: 6, tickOptions: {formatString: '%d', showMark: false, showGridline: false}}};
+
+                    var plot = $.jqplot(div, chart,
+                            {seriesDefaults: seriesDefaults,
+                                seriesColors: ['#cccccc', '#559955', '#cccccc', '#559955', '#cccccc'],
+                                series: tags,
+                                legend: {show: false, placement: 'insideGrid', location: 'n'},
+                                axes: axes, grid: {background: '#ffffff'}});
+
+                    return(plot);
+                }
+
+                function choiceGraph(div, chart, title, correct) {
+                    var ticks = [''];
+                    var seriesDefaults = {renderer: $.jqplot.BarRenderer, rendererOptions: {fillToZero: true}};
+                    var axes = {xaxis: {renderer: $.jqplot.CategoryAxisRenderer, ticks: ticks, tickOptions: {showGridline: false, showMark: false}},
+                        yaxis: {pad: 1.05, min: 0, max: 100, numberTicks: 6, tickOptions: {formatString: '%d%', showMark: false, showGridline: false}, label: title}};
+            
+                    var grid_borderColor = correct == true ? '#559955' : '#999999';
+                    var grid_background = correct == true ? '#ddffdd' : '#ffffff';
+            
+                    var plot = $.jqplot(div, chart,
+                            {seriesDefaults: seriesDefaults,
+                                series: tags,
+                                axes: axes, grid: {background: grid_background, borderColor: grid_borderColor}});
+                    return(plot);
+                }
+            });
+
+        </script>
+
+        <section class="graphs">
+            <div style="display: inline-block; vertical-align: bottom;">
+                <div>
+                    <div id="answers"></div>
+
+                    <div id="tags"></div>
+                </div>
+
+                <div id="choice_a" class="chart"></div>
+
+                <div id="choice_b" class="chart"></div>
+            </div>
+
+            <div style="display: inline-block; vertical-align: bottom;">
+                <div id="choice_c" class="chart"></div>
+
+                <div id="choice_d" class="chart"></div>
+
+                <div id="choice_e" class="chart"></div>
+            </div>
+        </section> 
+    </body>
+
+</html>

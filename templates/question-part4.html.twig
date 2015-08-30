@@ -1,0 +1,47 @@
+{% include 'head.html.twig' %}
+{% include 'header.html.twig' %}
+{% include 'init.twig' %}
+{% import 'media.html.twig' as media %}
+{% set q = question[question_num] %}
+
+<section id="main-content">
+    {% include 'question-header.html.twig' with {'class': 'question part-4'} %}
+        <section class="question">
+            <div class="img-upload">
+            {% include 'media.html.twig' with {'media': q['media1'], 'type': 'image'} %}
+                </div>
+                <div class="answer-form">
+                    <article class="student-rationale">
+                        <h2>You answered: 
+                            <a href="#" rel="tooltip" title="Your initial answer">
+                                <span class="{{ answered_correct[0] ? 'green' : 'green' }}">
+                                {% if q['alpha'] == 1 %}
+                                    {{ alpha[request['answer']] }}
+                                {% else %}
+                                    {{ request['answer'] }}
+                                {% endif %}                                        
+                                </span>
+                            </a>
+                            <a href="#" rel="tooltip" title="Your revised answer">
+                                <span class="{{ answered_correct[1] ? 'green' : 'green' }}">
+                                {% if q['alpha'] == 1 %}
+                                    {{ alpha[request['second_answer']] }}
+                                {% else %}
+                                    {{ request['second_answer'] }}
+                                {% endif %}                                        
+                                </span>
+                            </a>
+                        </h2>
+                        <p>{{request['rationale']}}</p>
+                    </article>
+                    <article class="correct-rationale">
+                        <h2><span>Example of good rationale</span></h2>
+                        <p>{{ q['rationale'] }}</p>
+                    </article>
+                    <a href="/question-part1" class="btn btn-primary next-page margin-bottom-20">OK&nbsp;&raquo;</a>
+                </div>
+                <div class="clear"></div>
+            </section>
+        </article>
+    </section>
+{% include 'footer.html' %}

@@ -1,0 +1,2 @@
+SELECT question_, second_choice, answer, MAX(answer_count) FROM (SELECT question.`question_`, second_choice, response.`answer`, count(response.`answer`) as answer_count from question join response on question.question_ = response.question_ where `attempt` = 0 and `response`.`answer` != question.answer 
+GROUP BY question.`question_`, response.`answer`)AS mytest GROUP BY question_ HAVING MAX(answer_count)

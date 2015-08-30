@@ -1,0 +1,67 @@
+{% include 'head.html.twig' %}
+<script>(function() {
+  var _fbq = window._fbq || (window._fbq = []);
+    if (!_fbq.loaded) {
+        var fbds = document.createElement('script');
+	    fbds.async = true;
+	        fbds.src = '//connect.facebook.net/en_US/fbds.js';
+		    var s = document.getElementsByTagName('script')[0];
+		        s.parentNode.insertBefore(fbds, s);
+			    _fbq.loaded = true;
+			      }
+			        _fbq.push(['addPixelId', '424017844406192']);
+				})();
+				window._fbq = window._fbq || [];
+				window._fbq.push(['track', 'PixelInitialized', {}]);
+				</script>
+				<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?id=424017844406192&amp;ev=PixelInitialized" /></noscript>
+				
+				{% include 'header.html.twig' %}
+
+<section id="main-content">
+
+	<section id="login">
+		<h1>Login</h1>
+
+		<form action="/" method="POST" class="form">
+			<fieldset>
+				
+				<div class="aligner">
+					<label for="username" class="fLeft">Username</label>
+					<div class="div_text">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-user"></i></span>
+							<input name="log" type="text" id="log inputIcon" value="" class="username span2" />
+						</div>
+					</div>
+
+					<div class="clear"></div>
+					
+					<label for="password" class="fLeft">Password</label>
+					<div class="div_text">
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-lock"></i></span>
+							<input name="pwd" type="password" id="pwd inputIcon" class="password span2" />
+						</div>
+					</div>
+                                </div>
+				
+				<div class="clear"></div>
+
+				<div class="button_div">
+					<input type="submit" value="Login" class="btn btn-primary" />
+                                </div>
+				<div class="clear"></div>
+			</fieldset>
+		</form>
+	</section>
+
+</section>
+<div id="login-cc" align="center" >
+    <a href="http://creativecommons.org/licenses/by-sa/3.0/legalcode"><img width="30%" src="/img/cc.logo.large.png" /></a>
+    &NonBreakingSpace;
+    <a href="http://www.apache.org/licenses/LICENSE-2.0"><img width="20%" src="/img/apache_feather.png" /></a></div>
+<footer id="main-footer"></footer>
+
+</body>
+</html>
